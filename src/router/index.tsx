@@ -14,7 +14,7 @@ const SuccessPayment = lazy(() => import('../pages/successPayment'))
 const PendingPayment = lazy(() => import('../pages/pendingPayment'))
 const NotFound = lazy(() => import('../pages/notFound'))
 
-type routerProps = {
+interface routerProps {
     path: string,
     exact: boolean,
     component: React.FC<{}>,
@@ -42,7 +42,7 @@ const Routers:routerProps[] = [
         component: ListProduct
     },
     {
-        path: '/detail-product',
+        path: '/detail-product/:product_id',
         exact: false,
         component: DetailProduct
     },

@@ -1,84 +1,124 @@
-import { FieldError, SubmitHandler, useForm } from "react-hook-form"
-import { Logo } from "../../assets"
-import { SignupInterface } from "../../utils/interfaces/authInterfaces"
-import { Button } from "../../component"
 import { Link } from "react-router-dom"
+import { Logo } from "../../assets"
+import { Button } from "../../component"
+import { useRegistrationFormik } from "../../utils/validations/validationRegister"
+import InputField from "../../component/inputField"
+import { useState } from "react"
+import ErrorMessage from "../../component/errorMessage"
 
 const Signup = () => {
+  const [errorStatus, setErrorStatus] = useState<string>("")
 
-  const {handleSubmit, register, formState: {errors}} = useForm<SignupInterface>({
-    defaultValues: {
-        consumer_name: '',
-        email_consumer: '',
-        password: '',
-        telephone_consumer: '',
-        gender_consumer: ''
-    }
-  })
-
-  const onSubmit: SubmitHandler<SignupInterface> = (data) => {
-    console.log(data)
+  const handleError = (error: string) => {
+    setErrorStatus(error)
   }
 
-  const ErrorMessage = ({error}: {error: FieldError | undefined}) => {
-    if(!error) return null
-    if(error.type === 'required') return <p className='text-red-500 text-[12px] font-bold mt-2'>This field is required</p>
-    if(error.type === 'minLength') return <p className='text-red-500 text-[12px] font-bold mt-2'>Minimum length is 8</p>
-    if(error.type === 'maxLength') return <p className='text-red-500 text-[12px] font-bold mt-2'>Maximal length is 13</p>
-    return null
-  }
+  const listGender = [
+    {label: "Select Your Gender", value: ""},
+    {label: "Male", value: "Male"},
+    {label: "Female", value: "Female"},
+  ]
+
+  const useFormikRegister = useRegistrationFormik({ onError: handleError })
 
   return (
     <div className="w-screen bg-blue-100 h-screen flex items-center justify-center">
       <div className="w-[50%] h-screen flex items-center justify-center">
         <img src={Logo} alt="logo" className="w-[70%]" />
       </div>
-      <div className="w-[50%] h-max rounded-lg overflow-hidden">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-[90%] p-5 rounded-lg h-max bg-white">
-          <h2 className="font-bold text-[22px] ml-5 mb-4">Signup</h2>
-          <div className='mx-auto flex flex-wrap border-t border-slate-300 pt-5 justify-between mb-8 w-[93%] items-center'>
-                <div className='w-[45%] h-max mb-6 block'>
-                    <label className='text-[16px] mb-4'>Your name</label>
-                    <br />
-                    <input placeholder='What is your name?' {...register('consumer_name', {required: true})} className='w-full h-max px-3 py-3 bg-slate-100 rounded-md mt-3 border-0 outline-0' />
-                    <ErrorMessage error={errors.consumer_name} />
-                </div>
-                <div className='w-[45%] h-max mb-6 block'>
-                    <label className='text-[16px] mb-4'>Your email</label>
-                    <br />
-                    <input placeholder='Enter email' {...register('email_consumer', {required: true})} className='w-full h-max px-3 py-3 bg-slate-100 rounded-md mt-3 border-0 outline-0' />
-                    <ErrorMessage error={errors.email_consumer} />
-                </div>
-                <div className='w-[45%] h-max mb-6 block'>
-                    <label className='text-[16px] mb-4'>Password</label>
-                    <br />
-                    <input type="password" placeholder='Password' {...register('password', {required: true, minLength: 8})} className='w-full h-max px-3 py-3 bg-slate-100 rounded-md mt-3 border-0 outline-0' />
-                    <ErrorMessage error={errors.password} />
-                </div>
-                <div className='w-[45%] h-max mb-6 block'>
-                    <label className='text-[16px] mb-4'>No telephone</label>
-                    <br />
-                    <input type="text" placeholder='No telephone' {...register('telephone_consumer', {required: true, maxLength: 13})} className='w-full h-max px-3 py-3 bg-slate-100 rounded-md mt-3 border-0 outline-0' />
-                    <ErrorMessage error={errors.telephone_consumer} />
-                </div>
-                <div className='w-[45%] h-max mb-6 block'>
-                    <label className='text-[16px] mb-4'>Gender</label>
-                    <br />
-                    <select {...register('gender_consumer', { required: true })} className='w-full bg-slate-100 h-max px-3 py-3 rounded-md mt-3 border-0 outline-0'>
-                        <option value=''>Select Gender</option>
-                        <option value='male'>Male</option>
-                        <option value='female'>Female</option>
-                    </select>
-                    <ErrorMessage error={errors.gender_consumer} />
-                </div>
+      <div className="w-[50%] h-full rounded-lg flex flex-col justify-center overflow-hidden bg-white p-[40px]">
+      {
+            errorStatus !== "" ? (
+                <>
+                  <ErrorMessage error={errorStatus} />
+                </>
+            ):
+                null
+        }
+        <h2 className="font-bold text-[32px] mb-4">Signup</h2>
+        <form onSubmit={useFormikRegister.handleSubmit} className="w-[100%] flex rounded-lg h-max">
+            <div className="w-[50%] pr-4">
+              <div className="mb-5">
+                <InputField 
+                    value={useFormikRegister.values.consumer_name} 
+                    name='consumer_name' 
+                    label='seller name'
+                    type="text"
+                    id='sellerName'
+                    onError={useFormikRegister.errors.consumer_name}
+                    onTouched={!!useFormikRegister.touched.consumer_name}
+                    onChange={useFormikRegister.handleChange} 
+                    onBlur={useFormikRegister.handleBlur} 
+                    placeholder="Enter Your Name" 
+                />
+              </div>
+              <div className="mb-5">
+                <InputField 
+                    value={useFormikRegister.values.email_consumer} 
+                    name='email_consumer' 
+                    label='Email'
+                    type="email"
+                    id='emailConsumer'
+                    onError={useFormikRegister.errors.email_consumer}
+                    onTouched={!!useFormikRegister.touched.email_consumer}
+                    onChange={useFormikRegister.handleChange} 
+                    onBlur={useFormikRegister.handleBlur} 
+                    placeholder="Enter Your Email" 
+                />
+              </div>
+              <div className="mb-5">
+                <InputField 
+                    value={useFormikRegister.values.telephone_consumer} 
+                    name='telephone_consumer' 
+                    label='Telephone'
+                    type="text"
+                    id='Telephone'
+                    onError={useFormikRegister.errors.telephone_consumer}
+                    onTouched={!!useFormikRegister.touched.telephone_consumer}
+                    onChange={useFormikRegister.handleChange} 
+                    onBlur={useFormikRegister.handleBlur} 
+                    placeholder="Enter Your Number" 
+                />
+              </div>
             </div>
-            <div className='w-max flex items-center'>
-              <Button status="primary" text="Signup now" style="ml-5" />
-              <div className="ml-3 flex items-center font-normal text-[14px]">
-                Already have an account ? 
-                <Link to='/Signin'>
-                    <p className="ml-2 text-blue-500 cursor-pinter hover:brightness-[80%] ">Here</p>
-                </Link>
+            <div className="w-[50%]">
+              <div className="mb-5">
+                <InputField 
+                    value={useFormikRegister.values.password} 
+                    name='password' 
+                    label='Password name'
+                    id='password'
+                    type="password"
+                    onError={useFormikRegister.errors.password}
+                    onTouched={!!useFormikRegister.touched.password}
+                    onChange={useFormikRegister.handleChange} 
+                    onBlur={useFormikRegister.handleBlur} 
+                    placeholder="Enter Your Password" 
+                />
+              </div>
+              <div className="mb-5">
+                <InputField 
+                    value={useFormikRegister.values.gender} 
+                    name='gender' 
+                    typeInput="select-input"
+                    options={listGender}
+                    label='Gender'
+                    id='gender'
+                    onError={useFormikRegister.errors.gender}
+                    onTouched={!!useFormikRegister.touched.gender}
+                    onChange={useFormikRegister.handleChange} 
+                    onBlur={useFormikRegister.handleBlur} 
+                    placeholder="Enter Your Password" 
+                />
+              </div>
+              <div className='w-max flex flex-col mt-6'>
+                <Button status="primary" type="submit" text="Signup now" />
+                <div className="flex mt-3 items-center font-normal text-[14px]">
+                  Already have an account ? 
+                  <Link to='/signin'>
+                      <p className="ml-2 text-blue-500 cursor-pinter hover:brightness-[80%] ">Here</p>
+                  </Link>
+                </div>
               </div>
             </div>
         </form>

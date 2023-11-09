@@ -6,12 +6,13 @@ import Routers from './router/index.tsx'
 import { Provider } from 'react-redux'
 import store, { persistor } from './redux/store.tsx'
 import { PersistGate } from 'redux-persist/integration/react'
+import { RotateSpinner } from 'react-spinners-kit'
 
 const LoadingFallback = () => {
   return (
-    <div className='w-screen h-screen flex items-center justify-center text-center'>
-      <p>Loading...</p>
-    </div>
+    <div className='flex fixed top-0 left-0 z-[99999999999] items-center w-screen h-screen justify-center'>
+      <RotateSpinner size={70} color="#36D7B7" loading={true} />
+  </div>
   )
 };
 

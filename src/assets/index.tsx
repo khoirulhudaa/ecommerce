@@ -24,6 +24,7 @@ import BgProfile from './bgProfile.jpg'
 import Success from './success.svg'
 import Pending from './pending.svg'
 import NotFounds from './404.svg'
+import Default from './default.png'
 
 export {
 
@@ -53,6 +54,7 @@ export {
     Success,
     Pending,
     NotFounds,
+    Default,
 
     // JSON - LottieFiles
     MaintanenceJSON

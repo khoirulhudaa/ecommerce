@@ -146,7 +146,7 @@ const ListProduct = () => {
           <DropDown title='Size products' listMenu={sizeArray} />
           <DropDown title='Price ranges' listMenu={priceArray} />
         </div>
-        <div className={`w-[80%] overflow-y-auto transition-all duration-300 ease ${showMenu ? "h-100vh max-h-[100vh] opacity-100" : "h-auto max-h-[75px]"} px-[40px] pb-[20px]`}>
+        <div className={  `w-[80%] overflow-y-auto transition-all duration-300 ease ${showMenu ? "h-100vh max-h-[100vh] opacity-100" : "h-auto max-h-[75px]"} px-[40px] pb-[20px]`}>
 
           <div className='w-full py-[14px] rounded-lg border-2 border-slate-300 bg-slate-100 mb-[20px] p-[12px] flex  justify-between items-center'>
             <p>12,911 items in <b>Mobile accessory</b></p>
@@ -155,7 +155,7 @@ const ListProduct = () => {
                 <FaChevronRight size={14} style={{transition: "0.4s ease",transform: `rotate(${showMenu ? "90deg" : "0deg"})`}} />
               </div>
               <div onClick={() => setDisplay('bloack')} className='w-[35px] mx-2 rounded-lg border-2 border-slate-500 h-[35px] flex items-center justify-center cursor-pointer hover:brightness-[80%] duration-200'>
-                <img src={Grid} alt="gridMode" className='w-[60%] opacity-[0.7]' />
+                <img src={Grid} a lt="gridMode" className='w-[60%] opacity-[0.7]' />
               </div>
               <div onClick={() => setDisplay('grid')} className='w-[35px] rounded-lg border-2 border-slate-500 h-[35px] flex items-center justify-center cursor-pointer hover:brightness-[80%] duration-200'>
                 <img src={Block} alt="blockMode" className='w-[50%] opacity-[0.7]' />
